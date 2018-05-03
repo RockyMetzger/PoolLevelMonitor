@@ -14,7 +14,7 @@ using System.IO;
 
 namespace PoolLevelMonitor
 {
-    public partial class Form1 : Form
+    public partial class PoolLevel : Form
     {
         delegate void SetTextCallback(string text);
 
@@ -25,7 +25,8 @@ namespace PoolLevelMonitor
         private static System.Timers.Timer aTimer;
         const string FILE_PATH = @"/home/pi/DistanceSensor/";
         const string FILE_NAME = @"PoolLog.txt";
-        const int TRIAL_SIZE = 20;
+        public string Version = "2.0";
+        const int TRIAL_SIZE = 200;
         int readingCount = 0;
         public int timerLength = 20;
         public int rtbLineCount = 0;
@@ -34,9 +35,10 @@ namespace PoolLevelMonitor
        // decimal[] rawData = new decimal[TRIAL_SIZE];
         double[] rawData = new double[TRIAL_SIZE];
     
-        public Form1()
+        public PoolLevel()
         {
             InitializeComponent();
+            lbl_Version.Text = "Version " + Version;
             SetTimer();
         }
         public void MeasureLevel()
@@ -49,9 +51,10 @@ namespace PoolLevelMonitor
             {
                 SetRawText("");
                 string stringToWrite;
-                int tries = 20;
-               // SerialPort ardP = new SerialPort("/dev/ttyACM0", 9600, Parity.None, 8);   //serial port for pi             
-                SerialPort ardP = new SerialPort("COM4", 9600, Parity.None, 8);           //serial port on pc
+                int tries =  Convert.ToInt32(tb_ReadingsPerCycle.Text);
+                SerialPort ardP = new SerialPort("/dev/ttyACM0", 9600, Parity.None, 8);   //serial port for pi             
+               // SerialPort ardP = new SerialPort("COM3", 9600, Parity.None, 8);           //serial port on pc
+               // SerialPort ardP = new SerialPort("COM4", 9600, Parity.None, 8);           //serial port on pc
 
                 //decimal[] rawData = new decimal[TRIAL_SIZE];
                 
@@ -88,7 +91,7 @@ namespace PoolLevelMonitor
                // tb_LevelChange.Text = baseChange.ToString("F3");
 
                 // WriteToFile(ave.ToString("F2"));      //average of of data points rounded to mm written to file                       
-                stringToWrite = "  " + ave.ToString("F3") + "cm  " + (ave / 2.54).ToString("F3") + "in  " + baseChange.ToString("F3") + " chg  " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                stringToWrite = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + ", " + ave.ToString("F3") + "cm,  " + (ave / 2.54).ToString("F3") + "in,  " + baseChange.ToString("F3") + " chg  " ;
                 WriteToFile(stringToWrite);
                 readingCount++;
                 if (readingCount > 20)
@@ -101,10 +104,11 @@ namespace PoolLevelMonitor
                // rtb_Readings.AppendText(stringToWrite + "\n");
                 // ardP.Close();                           //serial port closed
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("From Measure Level " + e.Message);
-               // Console.ReadLine();                
+                Console.WriteLine("From Measure Level " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message);
+                SetErrorText("Measure Level error " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message + "\n");
+                              
             }
 
         }
@@ -141,7 +145,8 @@ namespace PoolLevelMonitor
             }
             catch (Exception ex)
             {
-                SetErrorText("SetRawText error " + ex.Message + "\n");
+                SetErrorText("SetRawText error " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message + "\n");
+               
             }
 
         }
@@ -176,7 +181,9 @@ namespace PoolLevelMonitor
             }
             catch (Exception ex)
             {
-                SetErrorText("SetText error " + ex.Message + "\n");
+                //SetErrorText("SetText error " + ex.Message + "\n");
+                SetErrorText("SetText error " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message + "\n");
+                
             }
 
         }
@@ -204,7 +211,8 @@ namespace PoolLevelMonitor
             catch (Exception ex)
             {
                 // If we get an error here put it in the datalist
-                SetText("SetText error " + ex.Message + "\n");
+               // SetText("SetText error " + ex.Message + "\n");
+                Console.WriteLine("From SetErrorText " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message);
             }
 
         }
@@ -222,11 +230,11 @@ namespace PoolLevelMonitor
         }
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            timerLength = 30;
+            timerLength = Convert.ToInt32(tb_Period.Text);
             aTimer.Interval = timerLength * 1000;
             MeasureLevel();
         }
-        private static double ReadSerial(SerialPort sp)
+        private  double ReadSerial(SerialPort sp)
         {
             string serialDat = "";
             try
@@ -247,9 +255,10 @@ namespace PoolLevelMonitor
                         serialDat += Convert.ToChar(b);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("From ReadSerial " + e.Message);
+                Console.WriteLine("From ReadSerial " + ex.Message);
+                SetErrorText("ReadSerial error " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "  " + ex.Message + "\n");
                 //Console.ReadLine();
                 serialDat = "";
             }

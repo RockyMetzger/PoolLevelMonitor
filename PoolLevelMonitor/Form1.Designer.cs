@@ -1,6 +1,6 @@
 ﻿namespace PoolLevelMonitor
 {
-    partial class Form1
+    partial class PoolLevel
     {
         /// <summary>
         /// Required designer variable.
@@ -39,6 +39,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tb_ErrorList = new System.Windows.Forms.TextBox();
+            this.tb_ReadingsPerCycle = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tb_Period = new System.Windows.Forms.TextBox();
+            this.lbl_Version = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_Measure
@@ -73,7 +78,7 @@
             this.tb_Base.Name = "tb_Base";
             this.tb_Base.Size = new System.Drawing.Size(100, 20);
             this.tb_Base.TabIndex = 3;
-            this.tb_Base.Text = "0.0";
+            this.tb_Base.Text = "17.85434";
             this.tb_Base.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btn_ResetBase
@@ -139,11 +144,59 @@
             this.tb_ErrorList.Size = new System.Drawing.Size(588, 100);
             this.tb_ErrorList.TabIndex = 10;
             // 
-            // Form1
+            // tb_ReadingsPerCycle
+            // 
+            this.tb_ReadingsPerCycle.Location = new System.Drawing.Point(71, 8);
+            this.tb_ReadingsPerCycle.Name = "tb_ReadingsPerCycle";
+            this.tb_ReadingsPerCycle.Size = new System.Drawing.Size(78, 20);
+            this.tb_ReadingsPerCycle.TabIndex = 11;
+            this.tb_ReadingsPerCycle.Text = "50";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Readings";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(15, 37);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Period";
+            // 
+            // tb_Period
+            // 
+            this.tb_Period.Location = new System.Drawing.Point(71, 36);
+            this.tb_Period.Name = "tb_Period";
+            this.tb_Period.Size = new System.Drawing.Size(78, 20);
+            this.tb_Period.TabIndex = 14;
+            this.tb_Period.Text = "900";
+            // 
+            // lbl_Version
+            // 
+            this.lbl_Version.AutoSize = true;
+            this.lbl_Version.Location = new System.Drawing.Point(714, 685);
+            this.lbl_Version.Name = "lbl_Version";
+            this.lbl_Version.Size = new System.Drawing.Size(41, 13);
+            this.lbl_Version.TabIndex = 15;
+            this.lbl_Version.Text = "Ver 2.0";
+            // 
+            // PoolLevel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 728);
+            this.Controls.Add(this.lbl_Version);
+            this.Controls.Add(this.tb_Period);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.tb_ReadingsPerCycle);
             this.Controls.Add(this.tb_ErrorList);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -155,8 +208,8 @@
             this.Controls.Add(this.rtb_Readings);
             this.Controls.Add(this.rtb_RawData);
             this.Controls.Add(this.btn_Measure);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "PoolLevel";
+            this.Text = "Pool Level";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +228,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tb_ErrorList;
+        private System.Windows.Forms.TextBox tb_ReadingsPerCycle;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tb_Period;
+        private System.Windows.Forms.Label lbl_Version;
     }
 }
 
