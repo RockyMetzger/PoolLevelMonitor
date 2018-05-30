@@ -25,7 +25,7 @@ namespace PoolLevelMonitor
         private static System.Timers.Timer aTimer;
         const string FILE_PATH = @"/home/pi/DistanceSensor/";
         const string FILE_NAME = @"PoolLog.txt";
-        public string Version = "2.0";
+        public string Version = "3.0";
         const int TRIAL_SIZE = 200;
         int readingCount = 0;
         public int timerLength = 20;
@@ -91,7 +91,7 @@ namespace PoolLevelMonitor
                // tb_LevelChange.Text = baseChange.ToString("F3");
 
                 // WriteToFile(ave.ToString("F2"));      //average of of data points rounded to mm written to file                       
-                stringToWrite = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + ", " + ave.ToString("F3") + "cm,  " + (ave / 2.54).ToString("F3") + "in,  " + baseChange.ToString("F3") + " chg  " ;
+                stringToWrite = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + ", " + ave.ToString("F3") + ",  " + (ave / 2.54).ToString("F3") + ",  " + baseChange.ToString("F3") + "  " ;
                 WriteToFile(stringToWrite);
                 readingCount++;
                 if (readingCount > 20)
@@ -267,12 +267,16 @@ namespace PoolLevelMonitor
 
         private static void WriteToFile(string distance)
         {
-            string fullPath = FILE_PATH + FILE_NAME;
+            string dateString = DateTime.Now.ToString("yy-MM-dd");
+            dateString = DateTime.Now.DayOfYear + "_" + dateString;
+            string FileName = "/home/pi/PoolData/" + dateString + "_Level.txt";
+
+           // string fullPath = FILE_PATH + FILE_NAME;
             string stringToWrite;
            // stringToWrite = distance + " cm " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             stringToWrite = distance;
-            
-            using (StreamWriter sw = new StreamWriter(fullPath, append: true))   //create streamwrite
+
+            using (StreamWriter sw = new StreamWriter(FileName, append: true))   //create streamwrite
             {
                 
                 sw.WriteLine(stringToWrite);             //write to text file
